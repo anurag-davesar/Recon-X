@@ -27,7 +27,9 @@ def extract_cve_data(json_file):
                         }
                         if cve_data not in cves_found:
                             cves_found.append(cve_data)
-                except: continue
+                except Exception: 
+                    # Catching Exception rather than a bare except allows Ctrl+C to work
+                    continue 
     return cves_found
 
 def run_cve_scan(target_cve, alive_file, output_dir):
@@ -46,7 +48,9 @@ def run_cve_scan(target_cve, alive_file, output_dir):
             print(f"    > {c['host']}")
     else:
         print_status(f"Target appears safe from {target_cve}.", "success")
-    sys.exit()
+        
+    # Returning data instead of sys.exit() so the General can finish the job
+    return cves 
 
 def run_general_scan(urls_file, output_dir):
     """General Vulnerability Scan"""
